@@ -1,25 +1,24 @@
-import sqlite3 as sql
+import os
+from datetime import date, timedelta
 
-choice = "Mute"
-titles = ["ID","Exp","Level","Warnings","Mutes","Kicks","Bans"]
-titles2 = ["ID","Log ID","Staff Member","Start Time","End Time","Reason"]
+today = date.today()
+sunday = today + timedelta((6-today.weekday())%7)
+test_date = sunday
 
-with sql.connect('main.db') as mdb:
-    cur = mdb.cursor()
+if test_date != sunday:
+    print("It's Not Sunday")
+else:
+    print("It's Sunday. Cleaning Files")
+    file_count = 0
+    print("Starting File Count: {}".format(file_count))
+    path = "./support_files"
+    print("Removing Files From: {}".format(path))
 
-    srch = 'SELECT id,exp,level,warnings,mutes,bans,kicks FROM members WHERE Id=?'
-    val = (785294763258806302,)
-
-    srch2 = f'SELECT * FROM {choice.lower()}_logs WHERE id=?'
-    val2 = (785294763258806302,)
-
-    all_mem_info = cur.execute(srch, val).fetchall()
-    all_log_info = cur.execute(srch2, val2).fetchall()
-
-    for title in titles:
-        value=f"{title}: {all_mem_info[0][titles.index(title)]}"
-        print(value)
-
-    for title2 in titles2:
-        value=f"{title2}: {all_log_info[0][titles2.index(title2)]}"
-        print(value)
+    for file in os.walk(path):
+        print(f"Removing File: {file}")
+        os.remove(str(file))
+        print(f"File Removed: {file}")
+        file_count += 1
+        print(f"Updated File Count: {file_count}")
+    
+    print(f"Ending File Count: {file_count}")
