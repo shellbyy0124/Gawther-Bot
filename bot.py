@@ -25,7 +25,7 @@ async def on_ready():
         if guild.id == 779290532622893057:
             for channel in guild.text_channels:
                 if channel.name == "gawther_terminal":
-                    await channel.send('Gawther Is Online!')
+                    await channel.send('Gawther Is Online, HAHA!')
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('py'):
